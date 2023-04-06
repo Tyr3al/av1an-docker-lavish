@@ -17,7 +17,7 @@ RUN git clone https://aur.archlinux.org/yay-bin.git \
   && makepkg -sri --needed --noconfirm
 
 # Bild aom-av1-lavish
-RUN MAKEFLAGS="-j$threads" yay -Sa libjxl-metrics-git --noconfirm
+RUN MAKEFLAGS="-j$threads" yay -Sa libjxl-metrics-git  --noconfirm
 RUN MAKEFLAGS="-j$threads" yay -Sa vmaf-git --noconfirm 
 RUN sudo pacman -Rdd aom --noconfirm
 RUN MAKEFLAGS="-j$threads" yay -Sa aom-av1-lavish-git --noconfirm
@@ -26,7 +26,7 @@ RUN MAKEFLAGS="-j$threads" yay -Sa aom-av1-lavish-git --noconfirm
 FROM masterofzen/av1an:master
 COPY --from=builder /home/builder/.cache/yay/* /tmp/
 USER root
-RUN pacman -Rdd vmaf aom --noconfirm \
+RUN pacman -Rdd vmaf aom highway libjxl --noconfirm \
   && pacman -S boost-libs --noconfirm \
   && pacman -U /tmp/highway-git* /tmp/libjxl-metrics-git* /tmp/vmaf-git* /tmp/aom-av1-lavish-git* --noconfirm \
   && rm -r /tmp/*
